@@ -1,9 +1,12 @@
+from dotenv import load_dotenv
+load_dotenv()
 from langchain_community.vectorstores import Chroma
 from langchain_community.embeddings import HuggingFaceEmbeddings
 from langchain_groq import ChatGroq
 from langchain_core.prompts import PromptTemplate
 from langchain_core.output_parsers import StrOutputParser
 from langchain_core.runnables import RunnablePassthrough
+import os
 
 # Load existing vector store
 embeddings = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
@@ -16,7 +19,7 @@ retriever = vectorstore.as_retriever(search_kwargs={"k": 20})
 # LLM via Groq
 llm = ChatGroq(
     model="llama-3.1-8b-instant",
-    api_key="API_KEY",
+    api_key=os.getenv("API_KEY"),
     temperature=0.2
 )
 
